@@ -1,0 +1,275 @@
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <style>
+    html {
+      background-color: black;
+      overflow: hidden;
+    }
+    
+    .container {
+      height: 100%;
+      position: relative;
+    }
+
+    #bottom-div {
+      position: absolute;
+      bottom:0;
+      width:100%;
+    }
+
+    .circle-button {
+      border-radius: 50%;
+      border-width: 0;
+      display: inline-block;
+    }
+
+    /* For Desktops */
+    /* @media screen and (min-width: 780px) { */
+    /* For Tablets */
+    /* @media screen and (min-width: 540px) and (max-width: 780px) { */
+    /* For Mobile */
+    /* @media screen and (max-width: 540px) { */
+      .button-size {
+        padding: 0.5rem;
+        margin-right: 0.25rem;
+        margin-left: 0.25rem;
+        width:60px;
+        height:60px;
+      }
+
+      .button-img {
+        width: 30px;
+      }
+    /* } */
+
+    
+    .button-div {
+      max-width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom:1.5rem;
+      margin-top:1.5rem;
+    }
+
+
+    .green {
+      background-color: #1d805f;
+    }
+
+    .red {
+      background-color: #ff5c4a;
+    }
+
+    #meeting-div {
+      height: 332px;
+      max-width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .self-view {
+      max-height: 100px;
+    }
+
+    .remote-parent-div {
+      height:300px;
+      width: 533.3px;
+    }
+
+    .remote-video {
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: -75px;
+      position: relative;
+      z-index: -1;
+    }
+
+    video {
+      border-radius: 5px;
+    }
+
+    #call-span {
+      position:absolute;
+      top:10%;
+      width:100%;
+      text-align: center;
+      color:white;
+      font-family: Helvetica;
+      font-size: 24px;
+      padding:30px;
+    }
+
+    #logo {
+      position: absolute;
+      top:20px;
+      left:50%;
+      transform: translateX(-50%);
+      width:128px;
+      border-radius: 20%;
+    }
+
+    .loading-icon {
+      width: 30px;
+    }
+
+    .true-center {
+      left: 50%;
+      position: absolute;
+      transform: translateX(-50%);
+    }
+
+    .message-center {
+      top:40%;
+    }
+
+    .error-center {
+      top:30%;
+    }
+
+    .main-text {
+      color:white;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .main-input {
+      max-width: 500px;
+      left: 50%;
+      top:20%;
+      position: absolute;
+      transform: translateX(-50%);
+    }
+
+    .text-span {
+      text-align:center;
+      display:block;
+      margin-bottom:.5rem;
+      font-size: 20px;
+      min-height: 54px;
+      color: #ff5c4a;
+    }
+
+
+    button:disabled,
+    button[disabled]{
+      background-color: #cccccc;
+      color: #666666;
+    }
+
+
+    *:focus {
+      outline: none;
+    }
+
+    .circle-button:hover:enabled{
+      background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0 0);
+      cursor: pointer;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="mainContainer">
+      <div>
+      </div>
+      <span id="call-span"></span>
+      <img id="logo" src="/img/wxsd-icon.png"/>
+      <input id="meeting-input" class="input is-primary is-rounded main-input" type="text" placeholder="Meeting Number"/>
+      <img id="loading-icon" src="/img/loading-2.gif" class="true-center message-center loading-icon"/>
+      <span id="error-span" class="text-span true-center error-center"></span>
+      <div id="lobby-message" class="true-center message-center main-text" style="display:none;">
+        <span>In the lobby</span>
+        <br/>
+        <span>Waiting to be admitted</span>
+      </div>
+      <div id="ready-message" class="true-center message-center main-text" style="display:none;z-index:10000;">
+        <span>In the Meeting</span>
+        <br/>
+        <span>Ready to share?</span>
+        <br/>
+        <br/>
+        <button id="ready-button" class="circle-button button-size green" type="button" title="Share" alt="share">
+          <span>
+            <img class="button-img" src="/img/share.png"></img>
+          </span>
+        </button>
+      </div>
+      <div id="bottom-div">
+        <div id="meet-content">
+          <div id="meeting-div" style="display: none;">
+            <video id="self-view" class="self-view" muted autoplay></video>
+            <div class="remote-parent-div">
+              <!-- <audio id="remote-audio" autoplay></audio> -->
+              <video id="remote-view-video" class="remote-video" autoplay></video>
+            </div>
+          </div>
+          
+          <div class="button-div">
+            <button id="share-button" class="circle-button button-size green" type="button" title="Meet & Share" alt="make call & share" style="display:none;">
+              <span>
+                <img class="button-img" src="/img/share.png"></img>
+              </span>
+            </button>
+            <button id="hangup" class="circle-button button-size red call-control" type="button" title="Stop Share & Hangup" alt="hangup" style="display:none;">
+              <span>
+                <img class="button-img" src="/img/share-stop.png"></img>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script crossorigin src="https://unpkg.com/webex@^3/umd/webex.min.js"></script>
+    <script crossorigin src="https://cdn.jsdelivr.net/npm/webex@3.7.0/umd/webex.min.js"></script>
+    <script src="/js/init.js" type="text/javascript"></script>
+    <script src="/js/ui.js" type="text/javascript"></script>
+    <script src="/js/webex-funcs.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+
+document.getElementById("share-button").addEventListener("click", async(e) => {
+  customLog("share-button clicked");
+  updateErrorSpan();
+  document.getElementById("share-button").disabled = true;
+  let meetingInput = document.getElementById("meeting-input").value;
+  customLog(meetingInput);
+  if(isNumber(meetingInput)){
+    meetingInput += "@" + webexSite;
+  }
+  customLog(meetingInput);
+  await launchWebex(meetingInput)
+});
+
+document.getElementById("ready-button").addEventListener("click", async(e) => {
+  customLog("ready-button clicked");
+  updateErrorSpan();
+  document.getElementById("ready-button").disabled = true;
+  await addMediaToMeeting();
+  document.getElementById("ready-button").disabled = false;
+});
+
+
+document.getElementById('hangup').addEventListener('click', async() => {
+  document.getElementById("hangup").disabled = true;
+  updateErrorSpan();
+  leaveMeeting();
+  document.getElementById("hangup").disabled = false;
+});
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+  document.getElementById("logo").style.display = "block";
+  if(qMeeting){
+    document.getElementById("meeting-input").value = qMeeting;
+  }
+})
+
+    </script>
+  </body>
+</html>
+
