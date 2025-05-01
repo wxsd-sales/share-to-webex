@@ -3,7 +3,7 @@
 Join a Webex meeting and instantly start screen sharing.
 
 ## Demo
-<!--[![Vidcast Overview](https://github.com/wxsd-sales/custom-pmr-pin/assets/19175490/4861e7cd-7478-49cf-bada-223b30810691)](https://app.vidcast.io/share/3f264756-563a-4294-82f7-193643932fb3)-->
+[![Vidcast Overview](https://github.com/wxsd-sales/custom-pmr-pin/assets/19175490/4861e7cd-7478-49cf-bada-223b30810691)](https://app.vidcast.io/share/75320293-a1b5-4b67-935f-98da674c0403)
 
 Check out our live demo [here](https://share.wbx.ninja)!
 
