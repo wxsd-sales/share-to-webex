@@ -66,7 +66,30 @@ router.get('/oauth', async (req, res) => {
   let json = await resp.json();
   console.log('/access_token response json:', json);
   res.cookie("access_token", json.access_token, cookieOptions);
-  res.cookie("webex_site", process.env.WEBEX_SITE_URL, cookieOptions);
+
+  let meetingPrefs = await fetch('https://webexapis.com/v1/meetingPreferences',{
+    method: "GET",
+    headers:{
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${json.access_token}`
+    },
+  });
+  let meetJson = await meetingPrefs.json();
+  console.log('/meetingPreferences response json:', meetJson);
+  let siteUrl;
+  if(meetJson.sites?.length > 0){
+    for(let site of meetJson.sites){
+      siteUrl = site.siteUrl;
+      if(site.default){
+        break;
+      }
+    }
+  }
+  if(!siteUrl){
+    siteUrl = "null";
+  }
+  console.log("siteUrl:", siteUrl);
+  res.cookie("webex_site", siteUrl, cookieOptions);
   res.redirect(req.query.state);
 })
 
